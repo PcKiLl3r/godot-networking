@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://l05move00"]
+
+[ext_resource type="Script" path="res://lessons/lesson_05_player_movement/movement.gd" id="1_l05mv"]
+[ext_resource type="PackedScene" uid="uid://l05player0" path="res://lessons/lesson_05_player_movement/player.tscn" id="2_l05pl"]
+
+[node name="Movement" type="Node2D"]
+script = ExtResource("1_l05mv")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 500.0
+color = Color(0.06, 0.06, 0.1, 1)
+
+[node name="PlayArea" type="Node2D" parent="."]
+
+[node name="Spawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("PlayArea")
+spawn_limit = 8
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 400.0
+offset_bottom = 200.0
+
+[node name="Title" type="Label" parent="UI/VBox"]
+text = "LESSON 05: Player Movement with MultiplayerSynchronizer + Spawner"
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="UI/VBox"]
+
+[node name="HostBtn" type="Button" parent="UI/VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host (7004)"
+
+[node name="JoinBtn" type="Button" parent="UI/VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join"
+
+[node name="DisconnectBtn" type="Button" parent="UI/VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="Log" type="RichTextLabel" parent="UI/VBox"]
+custom_minimum_size = Vector2(0, 80)
+scroll_following = true

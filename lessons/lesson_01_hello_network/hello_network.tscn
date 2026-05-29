@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://l01hellonet"]
+
+[ext_resource type="Script" path="res://lessons/lesson_01_hello_network/hello_network.gd" id="1_l01hn"]
+
+[node name="HelloNetwork" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l01hn")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 01: Hello Network
+Concepts: ENetMultiplayerPeer | Server/Client | Peer Signals | First RPC"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="PortRow" type="HBoxContainer" parent="VBox"]
+
+[node name="PortLabel" type="Label" parent="VBox/PortRow"]
+text = "Port: "
+vertical_alignment = 1
+
+[node name="PortInput" type="LineEdit" parent="VBox/PortRow"]
+size_flags_horizontal = 3
+text = "7000"
+
+[node name="IPRow" type="HBoxContainer" parent="VBox"]
+
+[node name="IPLabel" type="Label" parent="VBox/IPRow"]
+text = "IP:     "
+vertical_alignment = 1
+
+[node name="IPInput" type="LineEdit" parent="VBox/IPRow"]
+size_flags_horizontal = 3
+text = "127.0.0.1"
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host Server"
+
+[node name="JoinBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join as Client"
+
+[node name="DisconnectBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="SendBtn" type="Button" parent="VBox"]
+text = "Send RPC Message to All Peers"
+
+[node name="Status" type="Label" parent="VBox"]
+text = "Status: Offline"
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="LogLabel" type="Label" parent="VBox"]
+text = "Log:"
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 300)
+scroll_following = true

@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://l06lobby0"]
+
+[ext_resource type="Script" path="res://lessons/lesson_06_lobby/lobby.gd" id="1_l06lb"]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l06lb")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 06: Lobby System
+Concepts: Player registry | Ready-up | Late join sync | Server-authoritative game start"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="ConnectRow" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/ConnectRow"]
+size_flags_horizontal = 3
+text = "Host Lobby (7005)"
+
+[node name="JoinBtn" type="Button" parent="VBox/ConnectRow"]
+size_flags_horizontal = 3
+text = "Join 127.0.0.1:7005"
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="PlayersLabel" type="Label" parent="VBox"]
+text = "Players:"
+
+[node name="PlayerList" type="ItemList" parent="VBox"]
+custom_minimum_size = Vector2(0, 160)
+size_flags_vertical = 3
+
+[node name="ActionRow" type="HBoxContainer" parent="VBox"]
+
+[node name="ReadyBtn" type="Button" parent="VBox/ActionRow"]
+size_flags_horizontal = 3
+text = "Toggle Ready"
+
+[node name="StartBtn" type="Button" parent="VBox/ActionRow"]
+size_flags_horizontal = 3
+text = "Start Game (server only, all must be ready)"
+
+[node name="Separator2" type="HSeparator" parent="VBox"]
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(0, 120)
+scroll_following = true

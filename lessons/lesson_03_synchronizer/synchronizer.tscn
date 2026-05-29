@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://l03sync000"]
+
+[ext_resource type="Script" path="res://lessons/lesson_03_synchronizer/synchronizer.gd" id="1_l03sync"]
+
+[node name="Synchronizer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l03sync")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 03: MultiplayerSynchronizer
+Concepts: Auto-property sync | Authority | set_multiplayer_authority | is_multiplayer_authority"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host (port 7002)"
+
+[node name="JoinBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join 127.0.0.1:7002"
+
+[node name="DisconnectBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="TransferBtn" type="Button" parent="VBox"]
+text = "Transfer Box Authority to First Client (server only)"
+
+[node name="Instructions" type="Label" parent="VBox"]
+text = "Arrow keys move the box (only if you are authority). Server is authority by default."
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="Arena" type="ColorRect" parent="VBox"]
+custom_minimum_size = Vector2(0, 300)
+size_flags_vertical = 3
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="Box" type="ColorRect" parent="VBox/Arena"]
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 140.0
+offset_bottom = 140.0
+color = Color(0.2, 0.6, 1.0, 1)
+
+[node name="Sync" type="MultiplayerSynchronizer" parent="VBox/Arena/Box"]
+root_path = NodePath("..")
+replication_interval = 0.05
+
+[node name="Config" type="SceneReplicationConfig" parent="VBox/Arena/Box/Sync"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Separator2" type="HSeparator" parent="VBox"]
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(0, 100)
+scroll_following = true

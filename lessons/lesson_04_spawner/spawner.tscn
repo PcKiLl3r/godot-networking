@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://l04spawner"]
+
+[ext_resource type="Script" path="res://lessons/lesson_04_spawner/spawner.gd" id="1_l04sp"]
+[ext_resource type="PackedScene" uid="uid://l04avatar0" path="res://lessons/lesson_04_spawner/player_avatar.tscn" id="2_l04av"]
+
+[node name="Spawner" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l04sp")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 04: MultiplayerSpawner
+Concepts: Auto-spawn/despawn across peers | spawn_function | per-player authority"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host (port 7003)"
+
+[node name="JoinBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join 127.0.0.1:7003"
+
+[node name="DisconnectBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="Instructions" type="Label" parent="VBox"]
+text = "Arrow keys move YOUR avatar. Other players move on their own."
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="Arena" type="ColorRect" parent="VBox"]
+custom_minimum_size = Vector2(0, 300)
+size_flags_vertical = 3
+color = Color(0.08, 0.08, 0.12, 1)
+
+[node name="Spawner" type="MultiplayerSpawner" parent="VBox/Arena"]
+spawn_path = NodePath("..")
+spawn_limit = 8
+
+[node name="Separator2" type="HSeparator" parent="VBox"]
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+custom_minimum_size = Vector2(0, 80)
+scroll_following = true

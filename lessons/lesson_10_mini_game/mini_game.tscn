@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://l10minigm0"]
+
+[ext_resource type="Script" path="res://lessons/lesson_10_mini_game/mini_game.gd" id="1_l10mg"]
+[ext_resource type="PackedScene" uid="uid://l10gplayer" path="res://lessons/lesson_10_mini_game/game_player.tscn" id="2_l10gp"]
+
+[node name="MiniGame" type="Node2D"]
+script = ExtResource("1_l10mg")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 500.0
+color = Color(0.05, 0.05, 0.08, 1)
+
+[node name="Arena" type="Node2D" parent="."]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("Arena")
+spawn_limit = 4
+
+[node name="CoinSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("Arena")
+spawn_limit = 20
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Lobby" type="VBoxContainer" parent="UI"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 500.0
+offset_bottom = 500.0
+
+[node name="Title" type="Label" parent="UI/Lobby"]
+text = "LESSON 10: Multiplayer Mini-Game — Collect Coins!
+Host or join, then start. First to 5 coins wins."
+autowrap_mode = 3
+
+[node name="HSep" type="HSeparator" parent="UI/Lobby"]
+
+[node name="Row" type="HBoxContainer" parent="UI/Lobby"]
+
+[node name="HostBtn" type="Button" parent="UI/Lobby/Row"]
+size_flags_horizontal = 3
+text = "Host (port 7009)"
+
+[node name="JoinBtn" type="Button" parent="UI/Lobby/Row"]
+size_flags_horizontal = 3
+text = "Join 127.0.0.1:7009"
+
+[node name="StartBtn" type="Button" parent="UI/Lobby"]
+text = "START GAME (server only)"
+
+[node name="Log" type="RichTextLabel" parent="UI/Lobby"]
+custom_minimum_size = Vector2(0, 120)
+scroll_following = true
+
+[node name="Game" type="VBoxContainer" parent="UI"]
+visible = false
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 300.0
+offset_bottom = 300.0
+
+[node name="GameTitle" type="Label" parent="UI/Game"]
+text = "Collect yellow coins! First to 5 wins.
+Arrow keys to move."
+
+[node name="Scoreboard" type="Label" parent="UI/Game"]
+text = "(scores)"
+
+[node name="GameOver" type="VBoxContainer" parent="UI"]
+visible = false
+offset_left = 250.0
+offset_top = 150.0
+offset_right = 550.0
+offset_bottom = 350.0
+
+[node name="WinnerLabel" type="Label" parent="UI/GameOver"]
+text = "Winner!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+
+[node name="PlayAgainBtn" type="Button" parent="UI/GameOver"]
+text = "Play Again (server only)"

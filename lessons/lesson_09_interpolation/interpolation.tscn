@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://l1ainterp0"]
+
+[ext_resource type="Script" path="res://lessons/lesson_09_interpolation/interpolation.gd" id="1_l09int"]
+[ext_resource type="PackedScene" uid="uid://l09intplyr" path="res://lessons/lesson_09_interpolation/interp_player.tscn" id="2_l09ip"]
+
+[node name="Interpolation" type="Node2D"]
+script = ExtResource("1_l09int")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 500.0
+color = Color(0.06, 0.06, 0.1, 1)
+
+[node name="PlayArea" type="Node2D" parent="."]
+
+[node name="Spawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("PlayArea")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 790.0
+offset_bottom = 500.0
+
+[node name="Title" type="Label" parent="UI/VBox"]
+text = "LESSON 09: Interpolation — smooth movement over a network"
+
+[node name="Row1" type="HBoxContainer" parent="UI/VBox"]
+
+[node name="HostBtn" type="Button" parent="UI/VBox/Row1"]
+text = "Host (7008)"
+
+[node name="JoinBtn" type="Button" parent="UI/VBox/Row1"]
+text = "Join"
+
+[node name="DisconnectBtn" type="Button" parent="UI/VBox/Row1"]
+text = "Disconnect"
+
+[node name="Row2" type="HBoxContainer" parent="UI/VBox"]
+
+[node name="SlowSyncBtn" type="Button" parent="UI/VBox/Row2"]
+text = "Slow Sync (0.2s)"
+
+[node name="FastSyncBtn" type="Button" parent="UI/VBox/Row2"]
+text = "Fast Sync (0.033s)"
+
+[node name="ToggleInterpBtn" type="Button" parent="UI/VBox/Row2"]
+text = "Toggle Interpolation"
+
+[node name="LagRow" type="HBoxContainer" parent="UI/VBox"]
+
+[node name="LagLabel" type="Label" parent="UI/VBox/LagRow"]
+text = "Simulated lag: 0ms"
+vertical_alignment = 1
+
+[node name="LagSlider" type="HSlider" parent="UI/VBox/LagRow"]
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 300.0
+value = 0.0
+
+[node name="Log" type="RichTextLabel" parent="UI/VBox"]
+custom_minimum_size = Vector2(0, 100)
+scroll_following = true

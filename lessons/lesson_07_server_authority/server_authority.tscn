@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://l07srvauth"]
+
+[ext_resource type="Script" path="res://lessons/lesson_07_server_authority/server_authority.gd" id="1_l07sa"]
+
+[node name="ServerAuthority" type="Node2D"]
+script = ExtResource("1_l07sa")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 800.0
+offset_bottom = 500.0
+color = Color(0.06, 0.06, 0.1, 1)
+
+[node name="LeftLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 360.0
+offset_bottom = 80.0
+text = "CLIENT AUTHORITY (unsafe — can cheat)"
+modulate = Color(1, 0.4, 0.4, 1)
+
+[node name="RightLabel" type="Label" parent="."]
+offset_left = 420.0
+offset_top = 60.0
+offset_right = 780.0
+offset_bottom = 80.0
+text = "SERVER AUTHORITY (safe — server validates)"
+modulate = Color(0.4, 1, 0.4, 1)
+
+[node name="Divider" type="ColorRect" parent="."]
+offset_left = 395.0
+offset_top = 60.0
+offset_right = 405.0
+offset_bottom = 500.0
+color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="ClientBox" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = 220.0
+offset_right = 120.0
+offset_bottom = 260.0
+color = Color(1.0, 0.4, 0.4, 1)
+
+[node name="ClientLabel" type="Label" parent="ClientBox"]
+offset_top = -20.0
+offset_right = 40.0
+text = "YOU"
+horizontal_alignment = 1
+
+[node name="ServerBox" type="ColorRect" parent="."]
+offset_left = 480.0
+offset_top = 220.0
+offset_right = 520.0
+offset_bottom = 260.0
+color = Color(0.4, 1.0, 0.4, 1)
+
+[node name="ServerLabel" type="Label" parent="ServerBox"]
+offset_top = -20.0
+offset_right = 40.0
+text = "YOU"
+horizontal_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 500.0
+offset_bottom = 60.0
+
+[node name="Title" type="Label" parent="UI/VBox"]
+text = "LESSON 07: Server Authority — LEFT=client-authority, RIGHT=server-validated"
+autowrap_mode = 3
+
+[node name="Row" type="HBoxContainer" parent="UI/VBox"]
+
+[node name="HostBtn" type="Button" parent="UI/VBox/Row"]
+text = "Host (7006)"
+
+[node name="JoinBtn" type="Button" parent="UI/VBox/Row"]
+text = "Join"
+
+[node name="DisconnectBtn" type="Button" parent="UI/VBox/Row"]
+text = "Disconnect"
+
+[node name="CheatBtn" type="Button" parent="UI/VBox/Row"]
+text = "CHEAT: Teleport (server rejects)"
+
+[node name="Log" type="RichTextLabel" parent="UI/VBox"]
+custom_minimum_size = Vector2(0, 60)
+scroll_following = true

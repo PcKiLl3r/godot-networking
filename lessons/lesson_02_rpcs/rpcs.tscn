@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://l02rpcs000"]
+
+[ext_resource type="Script" path="res://lessons/lesson_02_rpcs/rpcs.gd" id="1_l02rpc"]
+
+[node name="RPCs" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l02rpc")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 02: RPCs — Remote Procedure Calls
+Concepts: any_peer | authority | call_local | call_remote | reliable | unreliable | rpc_id"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host (port 7001)"
+
+[node name="JoinBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join 127.0.0.1:7001"
+
+[node name="DisconnectBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="RPC1Btn" type="Button" parent="VBox"]
+text = "DEMO 1: any_peer + call_local + reliable  →  fires on ALL peers including sender"
+
+[node name="RPC2Btn" type="Button" parent="VBox"]
+text = "DEMO 2: any_peer + call_remote + reliable  →  fires on REMOTE peers only"
+
+[node name="RPC3Btn" type="Button" parent="VBox"]
+text = "DEMO 3: authority only  →  only server may call; client attempt is rejected"
+
+[node name="RPC4Btn" type="Button" parent="VBox"]
+text = "DEMO 4: unreliable  →  send 5 packets, no delivery guarantee"
+
+[node name="RPC5Btn" type="Button" parent="VBox"]
+text = "DEMO 5: rpc_id  →  targeted send to peer 1 (server) only"
+
+[node name="Separator2" type="HSeparator" parent="VBox"]
+
+[node name="LogLabel" type="Label" parent="VBox"]
+text = "Log:"
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 250)
+scroll_following = true

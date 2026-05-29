@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://l08scenes0"]
+
+[ext_resource type="Script" path="res://lessons/lesson_08_scene_switch/scene_switch.gd" id="1_l08ss"]
+
+[node name="SceneSwitch" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_l08ss")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBox"]
+text = "LESSON 08: Scene Switching
+Concepts: Synchronized scene changes | Multiplayer survives scene swap | NetworkManager autoload pattern"
+autowrap_mode = 3
+
+[node name="Separator0" type="HSeparator" parent="VBox"]
+
+[node name="Buttons" type="HBoxContainer" parent="VBox"]
+
+[node name="HostBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Host (7007)"
+
+[node name="JoinBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Join"
+
+[node name="DisconnectBtn" type="Button" parent="VBox/Buttons"]
+size_flags_horizontal = 3
+text = "Disconnect"
+
+[node name="Separator1" type="HSeparator" parent="VBox"]
+
+[node name="SceneButtons" type="HBoxContainer" parent="VBox"]
+
+[node name="GoToGameBtn" type="Button" parent="VBox/SceneButtons"]
+size_flags_horizontal = 3
+text = "Switch All → Game Scene (server only)"
+
+[node name="GoToLobbyBtn" type="Button" parent="VBox/SceneButtons"]
+size_flags_horizontal = 3
+text = "Switch All → Lobby Scene (server only)"
+
+[node name="Status" type="Label" parent="VBox"]
+text = "Status: Not connected"
+
+[node name="Separator2" type="HSeparator" parent="VBox"]
+
+[node name="Log" type="RichTextLabel" parent="VBox"]
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 200)
+scroll_following = true
