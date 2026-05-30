@@ -86,14 +86,17 @@ func rpc_any_peer_remote(label: String) -> void:
 # Clients calling rpc() on an authority-only function → rejected
 # Use for: client→server messages you want to restrict
 func _demo_authority_only() -> void:
-	if multiplayer.is_server():
-		log_line("[DEMO 3] I am server/authority, calling authority_only.rpc()")
-		# Server calling rpc() sends to clients
-		authority_only.rpc("from authority")
-	else:
-		log_line("[DEMO 3] I am client — trying authority_only.rpc() (will be rejected by server)")
-		# This will be ignored — client is not the authority
-		authority_only.rpc("from client (rejected!)")
+	if not multiplayer.has_multiplayer_peer():
+		log_line("[DEMO 3] Not connected — host or join first.")
+		return
+	if not multiplayer.is_server():
+		# Don't call the RPC — engine would error. Explain instead.
+		log_line("[DEMO 3] BLOCKED: you are a client (id=%d), not the authority." % multiplayer.get_unique_id())
+		log_line("         @rpc(\"authority\") = only peer with authority (server=1) may call this.")
+		log_line("         Attempting it would cause: 'RPC not allowed, mode is authority'")
+		return
+	log_line("[DEMO 3] I am server/authority (id=1) — calling authority_only.rpc()")
+	authority_only.rpc("from authority")
 
 @rpc("authority", "call_local", "reliable")
 func authority_only(label: String) -> void:

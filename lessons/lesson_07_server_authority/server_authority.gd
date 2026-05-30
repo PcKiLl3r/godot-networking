@@ -52,27 +52,25 @@ func _physics_process(delta: float) -> void:
 	var move := dir * SPEED * delta
 
 	# ── LEFT BOX: client-authority ──────────────────────────────────────
-	# Every peer moves their own left box directly — no server involved.
-	# Bug in real games: each client can teleport their box to any position.
+	# Each peer moves THEIR OWN red box — no server, no sync.
+	# Two instances = two independent red boxes, neither sees the other move.
 	$ClientBox.position += move
-	$ClientBox.position = $ClientBox.position.clamp(Vector2(0, 0), Vector2(340, 460))
+	$ClientBox.position = $ClientBox.position.clamp(Vector2(0, 60), Vector2(355, 460))
 
 	# ── RIGHT BOX: server-authority ─────────────────────────────────────
+	# Both peers share ONE green box. Server validates all moves.
+	# Both windows always show the same green box position.
 	if multiplayer.is_server():
-		# SERVER moves right box directly — it is the authority, no RPC needed.
-		# Then broadcasts authoritative position to all clients.
 		if move != Vector2.ZERO:
-			var my_id := multiplayer.get_unique_id()  # = 1
-			_server_positions[my_id] = (_server_positions.get(my_id, $ServerBox.position) + move).clamp(Vector2(0,0), Vector2(340,460))
+			var my_id := multiplayer.get_unique_id()
+			_server_positions[my_id] = (_server_positions.get(my_id, $ServerBox.position) + move).clamp(Vector2(410, 60), Vector2(760, 460))
 			update_server_box.rpc(_server_positions[my_id])
 			_dbg_last_send = "BROADCAST pos=%s" % _server_positions[my_id]
 	else:
-		# CLIENT sends input delta to server, does local prediction.
 		if move != Vector2.ZERO:
 			_dbg_last_send = "SEND delta=%s to server" % move
 			send_input_to_server.rpc_id(1, move)
-			# Prediction: move immediately, server will correct if wrong
-			$ServerBox.position = ($ServerBox.position + move).clamp(Vector2(0,0), Vector2(340,460))
+			$ServerBox.position = ($ServerBox.position + move).clamp(Vector2(410, 60), Vector2(760, 460))
 
 	_update_debug()
 
@@ -83,8 +81,14 @@ func _on_cheat_pressed() -> void:
 	var cheat_delta := Vector2(999, 999)
 	log_line("CHEAT ATTEMPT: sending delta=%s" % cheat_delta)
 	_dbg_last_send = "CHEAT delta=%s" % cheat_delta
-	send_input_to_server.rpc_id(1, cheat_delta)
-	$ServerBox.position = ($ServerBox.position + cheat_delta).clamp(Vector2(0,0), Vector2(340,460))
+	if multiplayer.is_server():
+		# Server is the authority — nobody stops it. Box just moves.
+		log_line("[SERVER] Cheat accepted — server has no one above it.")
+		$ServerBox.position = ($ServerBox.position + cheat_delta).clamp(Vector2(410, 60), Vector2(760, 460))
+		update_server_box.rpc($ServerBox.position)
+	else:
+		send_input_to_server.rpc_id(1, cheat_delta)
+		$ServerBox.position = ($ServerBox.position + cheat_delta).clamp(Vector2(410, 60), Vector2(760, 460))
 
 # ── Client → Server ───────────────────────────────────────────────────────
 
@@ -99,14 +103,13 @@ func send_input_to_server(move_delta: Vector2) -> void:
 	if not _server_positions.has(id):
 		_server_positions[id] = $ServerBox.position
 
-	# Validate: reject suspiciously large deltas
 	var max_allowed := (MAX_SPEED / Engine.physics_ticks_per_second) * 3.0
 	if move_delta.length() > max_allowed:
 		log_line("[SERVER] REJECTED from peer %d — delta %.1f > max %.1f" % [id, move_delta.length(), max_allowed])
 		correct_client_position.rpc_id(id, _server_positions[id])
 		return
 
-	_server_positions[id] = (_server_positions[id] + move_delta).clamp(Vector2(0,0), Vector2(340,460))
+	_server_positions[id] = (_server_positions[id] + move_delta).clamp(Vector2(410, 60), Vector2(760, 460))
 	log_line("[SERVER] accepted from peer %d → pos=%s" % [id, _server_positions[id]])
 	update_server_box.rpc(_server_positions[id])
 

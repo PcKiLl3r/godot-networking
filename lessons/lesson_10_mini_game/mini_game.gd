@@ -113,13 +113,13 @@ func register_me(p_name: String) -> void:
 	new_player_broadcast.rpc(id, p_name, color)
 
 @rpc("authority", "call_local", "reliable")
-func new_player_broadcast(id: int, p_name: String, color: Color) -> void:
+func new_player_broadcast(id: int, _p_name: String, _color: Color) -> void:
 	if not _players.has(id):
 		_scores[id] = 0
 	_refresh_scoreboard()
 
 @rpc("authority", "call_remote", "reliable")
-func send_existing_player(id: int, p_name: String, color: Color, score: int) -> void:
+func send_existing_player(id: int, _p_name: String, _color: Color, score: int) -> void:
 	_scores[id] = score
 	_refresh_scoreboard()
 

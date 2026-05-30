@@ -114,13 +114,17 @@ func _on_ready_pressed() -> void:
 	if not multiplayer.has_multiplayer_peer():
 		log_line("Not connected")
 		return
-	set_ready_on_server.rpc_id(1)
+	if multiplayer.is_server():
+		set_ready_on_server()  # server calls directly, no RPC to self
+	else:
+		set_ready_on_server.rpc_id(1)
 
 @rpc("any_peer", "call_remote", "reliable")
 func set_ready_on_server() -> void:
 	if not multiplayer.is_server():
 		return
-	var id := multiplayer.get_remote_sender_id()
+	var sender := multiplayer.get_remote_sender_id()
+	var id := sender if sender != 0 else multiplayer.get_unique_id()
 	if not players.has(id):
 		return
 	players[id].ready = not players[id].ready

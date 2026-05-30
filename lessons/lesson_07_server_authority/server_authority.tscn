@@ -16,7 +16,7 @@ offset_left = 20.0
 offset_top = 60.0
 offset_right = 360.0
 offset_bottom = 80.0
-text = "CLIENT AUTHORITY (unsafe — can cheat)"
+text = "CLIENT AUTHORITY\nEach peer moves THEIR OWN box.\nNo sync. No validation.\nTwo instances = two independent boxes."
 
 [node name="RightLabel" type="Label" parent="." unique_id=1869843495]
 modulate = Color(0.4, 1, 0.4, 1)
@@ -24,7 +24,7 @@ offset_left = 420.0
 offset_top = 60.0
 offset_right = 780.0
 offset_bottom = 80.0
-text = "SERVER AUTHORITY (safe — server validates)"
+text = "SERVER AUTHORITY\nBoth peers share ONE box.\nServer validates every move.\nBoth windows show same position."
 
 [node name="Divider" type="ColorRect" parent="." unique_id=988587775]
 offset_left = 395.0
