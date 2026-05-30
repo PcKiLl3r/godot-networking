@@ -9,7 +9,7 @@
 ##   - spawned_custom: emit custom data from server to clients during spawn
 ##
 ## How it works:
-##   Server calls $Arena/Spawner.spawn(data)
+##   Server calls $VBox/Arena/Spawner.spawn(data)
 ##   → Spawner instantiates the registered scene
 ##   → Replicates the node to all peers automatically
 ##   → Calls spawn_function on each peer to apply the data
@@ -45,7 +45,7 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 
 	# Tell the spawner which scene to instantiate, and what function sets it up
-	$Arena/Spawner.spawn_function = _spawn_player
+	$VBox/Arena/Spawner.spawn_function = _spawn_player
 
 func _on_host_pressed() -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -60,6 +60,10 @@ func _on_join_pressed() -> void:
 	peer.create_client("127.0.0.1", PORT)
 	multiplayer.multiplayer_peer = peer
 	log_line("Connecting...")
+
+func _on_disconnect_pressed() -> void:
+	multiplayer.multiplayer_peer = null
+	log_line("Disconnected.")
 
 func _on_connected_to_server() -> void:
 	log_line("Connected. My ID=%d — telling server to spawn me" % multiplayer.get_unique_id())
@@ -93,7 +97,7 @@ func _spawn_player_for_peer(peer_id: int) -> void:
 		"position": Vector2(50 + idx * 80, 130),
 	}
 	# spawn() triggers _spawn_player on ALL peers + server
-	var node: ColorRect = $Arena/Spawner.spawn(data)
+	var node: ColorRect = $VBox/Arena/Spawner.spawn(data)
 	_player_nodes[peer_id] = node
 
 # spawn_function is called on EVERY peer (server + all clients) when a node spawns.

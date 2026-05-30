@@ -1,6 +1,17 @@
-[gd_scene format=3 uid="uid://l1aintplyr"]
+[gd_scene load_steps=3 format=3 uid="uid://l09intplyr"]
 
 [ext_resource type="Script" path="res://lessons/lesson_09_interpolation/interp_player.gd" id="1_l09ip"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
+properties/0/path = NodePath(".:net_pos")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:player_id")
+properties/1/spawn = true
+properties/1/sync = false
+properties/2/path = NodePath(".:player_color")
+properties/2/spawn = true
+properties/2/sync = false
 
 [node name="InterpPlayer" type="ColorRect"]
 offset_right = 36.0
@@ -19,16 +30,6 @@ text = "P?"
 
 [node name="Sync" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("..")
-replication_interval = 0.033
-interpolation = true
-
-[node name="Config" type="SceneReplicationConfig" parent="./Sync"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath(".:player_id")
-properties/1/spawn = true
-properties/1/sync = false
-properties/2/path = NodePath(".:player_color")
-properties/2/spawn = true
-properties/2/sync = false
+replication_interval = 0.2
+interpolation = false
+replication_config = SubResource("SceneReplicationConfig_1")

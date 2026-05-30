@@ -26,7 +26,7 @@ func _ready() -> void:
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	$Spawner.spawn_function = _do_spawn
+	$PlayArea/Spawner.spawn_function = _do_spawn
 
 func _on_host_pressed() -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -47,6 +47,10 @@ func _on_connected_to_server() -> void:
 
 func _on_peer_connected(id: int) -> void:
 	log_line("Peer %d connected" % id)
+
+func _on_disconnect_pressed() -> void:
+	multiplayer.multiplayer_peer = null
+	log_line("Disconnected.")
 
 func _on_peer_disconnected(id: int) -> void:
 	log_line("Peer %d left" % id)
@@ -72,7 +76,7 @@ func _spawn_player(peer_id: int) -> void:
 		"color": PLAYER_COLORS[idx % PLAYER_COLORS.size()],
 		"position": Vector2(100 + idx * 100, 250),
 	}
-	$Spawner.spawn(data)
+	$PlayArea/Spawner.spawn(data)
 
 func _do_spawn(data: Dictionary) -> Node:
 	var scene := preload("res://lessons/lesson_05_player_movement/player.tscn")

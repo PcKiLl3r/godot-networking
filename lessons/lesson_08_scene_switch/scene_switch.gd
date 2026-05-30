@@ -19,8 +19,8 @@ func _ready() -> void:
 	$VBox/Buttons/HostBtn.pressed.connect(_on_host_pressed)
 	$VBox/Buttons/JoinBtn.pressed.connect(_on_join_pressed)
 	$VBox/Buttons/DisconnectBtn.pressed.connect(_on_disconnect_pressed)
-	$VBox/GoToGameBtn.pressed.connect(_on_go_to_game)
-	$VBox/GoToLobbyBtn.pressed.connect(_on_go_to_lobby)
+	$VBox/SceneButtons/GoToGameBtn.pressed.connect(_on_go_to_game)
+	$VBox/SceneButtons/GoToLobbyBtn.pressed.connect(_on_go_to_lobby)
 
 	multiplayer.peer_connected.connect(func(id): log_line("Peer %d joined" % id))
 	multiplayer.connected_to_server.connect(func(): log_line("Connected. ID=%d" % multiplayer.get_unique_id()))

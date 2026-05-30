@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://l06lobby0"]
 
-[ext_resource type="Script" path="res://lessons/lesson_06_lobby/lobby.gd" id="1_l06lb"]
+[ext_resource type="Script" uid="uid://cd60166jc6ukm" path="res://lessons/lesson_06_lobby/lobby.gd" id="1_l06lb"]
 
-[node name="Lobby" type="Control"]
+[node name="Lobby" type="Control" unique_id=1764725461]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_l06lb")
 
-[node name="VBox" type="VBoxContainer" parent="."]
-anchors_preset = 15
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1097026879]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
@@ -18,44 +20,57 @@ offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="VBox"]
+[node name="Title" type="Label" parent="VBox" unique_id=2016237412]
+layout_mode = 2
 text = "LESSON 06: Lobby System
 Concepts: Player registry | Ready-up | Late join sync | Server-authoritative game start"
 autowrap_mode = 3
 
-[node name="Separator0" type="HSeparator" parent="VBox"]
+[node name="Separator0" type="HSeparator" parent="VBox" unique_id=1791457287]
+layout_mode = 2
 
-[node name="ConnectRow" type="HBoxContainer" parent="VBox"]
+[node name="ConnectRow" type="HBoxContainer" parent="VBox" unique_id=690379457]
+layout_mode = 2
 
-[node name="HostBtn" type="Button" parent="VBox/ConnectRow"]
+[node name="HostBtn" type="Button" parent="VBox/ConnectRow" unique_id=512837384]
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Host Lobby (7005)"
 
-[node name="JoinBtn" type="Button" parent="VBox/ConnectRow"]
+[node name="JoinBtn" type="Button" parent="VBox/ConnectRow" unique_id=771696909]
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Join 127.0.0.1:7005"
 
-[node name="Separator1" type="HSeparator" parent="VBox"]
+[node name="Separator1" type="HSeparator" parent="VBox" unique_id=275856671]
+layout_mode = 2
 
-[node name="PlayersLabel" type="Label" parent="VBox"]
+[node name="PlayersLabel" type="Label" parent="VBox" unique_id=1982086622]
+layout_mode = 2
 text = "Players:"
 
-[node name="PlayerList" type="ItemList" parent="VBox"]
+[node name="PlayerList" type="ItemList" parent="VBox" unique_id=1505425985]
 custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ActionRow" type="HBoxContainer" parent="VBox"]
+[node name="ActionRow" type="HBoxContainer" parent="VBox" unique_id=276762247]
+layout_mode = 2
 
-[node name="ReadyBtn" type="Button" parent="VBox/ActionRow"]
+[node name="ReadyBtn" type="Button" parent="VBox/ActionRow" unique_id=1438289402]
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Toggle Ready"
 
-[node name="StartBtn" type="Button" parent="VBox/ActionRow"]
+[node name="StartBtn" type="Button" parent="VBox/ActionRow" unique_id=1469643499]
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Start Game (server only, all must be ready)"
 
-[node name="Separator2" type="HSeparator" parent="VBox"]
+[node name="Separator2" type="HSeparator" parent="VBox" unique_id=1440679440]
+layout_mode = 2
 
-[node name="Log" type="RichTextLabel" parent="VBox"]
+[node name="Log" type="RichTextLabel" parent="VBox" unique_id=1338417114]
 custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
 scroll_following = true

@@ -1,6 +1,11 @@
-[gd_scene format=3 uid="uid://l03sync000"]
+[gd_scene load_steps=3 format=3 uid="uid://l03sync000"]
 
 [ext_resource type="Script" path="res://lessons/lesson_03_synchronizer/synchronizer.gd" id="1_l03sync"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
 
 [node name="Synchronizer" type="Control"]
 anchor_right = 1.0
@@ -62,11 +67,7 @@ color = Color(0.2, 0.6, 1.0, 1)
 [node name="Sync" type="MultiplayerSynchronizer" parent="VBox/Arena/Box"]
 root_path = NodePath("..")
 replication_interval = 0.05
-
-[node name="Config" type="SceneReplicationConfig" parent="VBox/Arena/Box/Sync"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
+replication_config = SubResource("SceneReplicationConfig_1")
 
 [node name="Separator2" type="HSeparator" parent="VBox"]
 

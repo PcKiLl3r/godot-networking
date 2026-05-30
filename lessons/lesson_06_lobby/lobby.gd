@@ -20,10 +20,10 @@ const PORT := 7005
 var players: Dictionary = {}
 
 func _ready() -> void:
-	$VBox/HostBtn.pressed.connect(_on_host_pressed)
-	$VBox/JoinBtn.pressed.connect(_on_join_pressed)
-	$VBox/ReadyBtn.pressed.connect(_on_ready_pressed)
-	$VBox/StartBtn.pressed.connect(_on_start_pressed)
+	$VBox/ConnectRow/HostBtn.pressed.connect(_on_host_pressed)
+	$VBox/ConnectRow/JoinBtn.pressed.connect(_on_join_pressed)
+	$VBox/ActionRow/ReadyBtn.pressed.connect(_on_ready_pressed)
+	$VBox/ActionRow/StartBtn.pressed.connect(_on_start_pressed)
 
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
@@ -58,7 +58,7 @@ func _on_peer_connected(id: int) -> void:
 	# If I'm the server, send the new peer the full current player list
 	if multiplayer.is_server():
 		for pid in players:
-			var p := players[pid]
+			var p: Dictionary = players[pid]
 			send_player_to_peer.rpc_id(id, pid, p.name, p.color, p.ready)
 
 func _on_peer_disconnected(id: int) -> void:
@@ -139,7 +139,7 @@ func _on_start_pressed() -> void:
 	if not multiplayer.is_server():
 		log_line("Only server can start the game")
 		return
-	var all_ready := players.values().all(func(p): return p.ready)
+	var all_ready := players.values().filter(func(p): return p.name != "Host").all(func(p): return p.ready)
 	if not all_ready:
 		log_line("Not all players are ready!")
 		return
@@ -163,7 +163,7 @@ func refresh_player_list() -> void:
 	var list := $VBox/PlayerList
 	list.clear()
 	for id in players:
-		var p := players[id]
+		var p: Dictionary = players[id]
 		var status := "[READY]" if p.ready else "[not ready]"
 		var me := " ← YOU" if id == multiplayer.get_unique_id() else ""
 		list.add_item("%s  id=%d  %s%s" % [p.name, id, status, me])

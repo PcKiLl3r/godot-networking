@@ -1,6 +1,17 @@
-[gd_scene format=3 uid="uid://l04avatar0"]
+[gd_scene load_steps=3 format=3 uid="uid://l04avatar0"]
 
 [ext_resource type="Script" path="res://lessons/lesson_04_spawner/player_avatar.gd" id="1_l04av"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:color")
+properties/1/spawn = true
+properties/1/sync = false
+properties/2/path = NodePath(".:player_name")
+properties/2/spawn = true
+properties/2/sync = false
 
 [node name="PlayerAvatar" type="ColorRect"]
 offset_right = 40.0
@@ -20,14 +31,4 @@ text = "?"
 [node name="Sync" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("..")
 replication_interval = 0.05
-
-[node name="Config" type="SceneReplicationConfig" parent="./Sync"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/1/path = NodePath(".:color")
-properties/1/spawn = true
-properties/1/sync = false
-properties/2/path = NodePath(".:player_name")
-properties/2/spawn = true
-properties/2/sync = false
+replication_config = SubResource("SceneReplicationConfig_1")

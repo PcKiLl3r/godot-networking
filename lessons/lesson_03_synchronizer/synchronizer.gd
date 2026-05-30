@@ -27,9 +27,10 @@ extends Control
 const PORT := 7002
 
 # Track box velocity for smooth movement
-var _box_velocity := Vector2.ZERO
+var _box: ColorRect
 
 func _ready() -> void:
+	_box = $VBox/Arena/Box
 	$VBox/Buttons/HostBtn.pressed.connect(_on_host_pressed)
 	$VBox/Buttons/JoinBtn.pressed.connect(_on_join_pressed)
 	$VBox/Buttons/DisconnectBtn.pressed.connect(_on_disconnect_pressed)
@@ -70,22 +71,23 @@ func _on_transfer_authority() -> void:
 		log_line("No clients connected")
 		return
 	var new_authority := peers[0]
-	$Arena/Box.set_multiplayer_authority(new_authority)
+	_box.set_multiplayer_authority(new_authority)
 	# Tell ALL peers who the new authority is, so they set it too
 	sync_authority.rpc(new_authority)
 	log_line("Authority transferred to peer %d" % new_authority)
 
 @rpc("authority", "call_local", "reliable")
 func sync_authority(new_owner_id: int) -> void:
-	$Arena/Box.set_multiplayer_authority(new_owner_id)
+	_box.set_multiplayer_authority(new_owner_id)
 	var mine := new_owner_id == multiplayer.get_unique_id()
 	log_line("Authority is now peer %d  (mine=%s)" % [new_owner_id, mine])
 
 func _physics_process(delta: float) -> void:
-	if not multiplayer.has_multiplayer_peer():
+	if not _box:
 		return
-	# Only authority moves the box; others just receive via MultiplayerSynchronizer
-	if not $Arena/Box.is_multiplayer_authority():
+	if not multiplayer.is_server() and not multiplayer.has_multiplayer_peer():
+		return
+	if not _box.is_multiplayer_authority():
 		return
 
 	var dir := Vector2.ZERO
@@ -94,10 +96,9 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_down"):  dir.y += 1
 	if Input.is_action_pressed("ui_up"):    dir.y -= 1
 
-	$Arena/Box.position += dir * 200.0 * delta
-	# Clamp within arena
-	var arena_size: Vector2 = $Arena.size
-	$Arena/Box.position = $Arena/Box.position.clamp(Vector2.ZERO, arena_size - Vector2(40, 40))
+	_box.position += dir * 200.0 * delta
+	var arena_size: Vector2 = $VBox/Arena.size
+	_box.position = _box.position.clamp(Vector2.ZERO, arena_size - Vector2(40, 40))
 
 func log_line(text: String) -> void:
 	$VBox/Log.append_text(text + "\n")

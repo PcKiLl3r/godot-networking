@@ -1,90 +1,105 @@
 [gd_scene format=3 uid="uid://l07srvauth"]
 
-[ext_resource type="Script" path="res://lessons/lesson_07_server_authority/server_authority.gd" id="1_l07sa"]
+[ext_resource type="Script" uid="uid://d3kinnrb8tpm0" path="res://lessons/lesson_07_server_authority/server_authority.gd" id="1_l07sa"]
 
-[node name="ServerAuthority" type="Node2D"]
+[node name="ServerAuthority" type="Node2D" unique_id=1225645648]
 script = ExtResource("1_l07sa")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=807685848]
 offset_right = 800.0
 offset_bottom = 500.0
 color = Color(0.06, 0.06, 0.1, 1)
 
-[node name="LeftLabel" type="Label" parent="."]
+[node name="LeftLabel" type="Label" parent="." unique_id=873502260]
+modulate = Color(1, 0.4, 0.4, 1)
 offset_left = 20.0
 offset_top = 60.0
 offset_right = 360.0
 offset_bottom = 80.0
 text = "CLIENT AUTHORITY (unsafe — can cheat)"
-modulate = Color(1, 0.4, 0.4, 1)
 
-[node name="RightLabel" type="Label" parent="."]
+[node name="RightLabel" type="Label" parent="." unique_id=1869843495]
+modulate = Color(0.4, 1, 0.4, 1)
 offset_left = 420.0
 offset_top = 60.0
 offset_right = 780.0
 offset_bottom = 80.0
 text = "SERVER AUTHORITY (safe — server validates)"
-modulate = Color(0.4, 1, 0.4, 1)
 
-[node name="Divider" type="ColorRect" parent="."]
+[node name="Divider" type="ColorRect" parent="." unique_id=988587775]
 offset_left = 395.0
 offset_top = 60.0
 offset_right = 405.0
 offset_bottom = 500.0
 color = Color(0.4, 0.4, 0.4, 1)
 
-[node name="ClientBox" type="ColorRect" parent="."]
+[node name="ClientBox" type="ColorRect" parent="." unique_id=1055244152]
 offset_left = 80.0
 offset_top = 220.0
 offset_right = 120.0
 offset_bottom = 260.0
-color = Color(1.0, 0.4, 0.4, 1)
+color = Color(1, 0.4, 0.4, 1)
 
-[node name="ClientLabel" type="Label" parent="ClientBox"]
+[node name="ClientLabel" type="Label" parent="ClientBox" unique_id=1391119898]
+layout_mode = 0
 offset_top = -20.0
 offset_right = 40.0
 text = "YOU"
 horizontal_alignment = 1
 
-[node name="ServerBox" type="ColorRect" parent="."]
+[node name="ServerBox" type="ColorRect" parent="." unique_id=1725059690]
 offset_left = 480.0
 offset_top = 220.0
 offset_right = 520.0
 offset_bottom = 260.0
-color = Color(0.4, 1.0, 0.4, 1)
+color = Color(0.4, 1, 0.4, 1)
 
-[node name="ServerLabel" type="Label" parent="ServerBox"]
+[node name="ServerLabel" type="Label" parent="ServerBox" unique_id=610087212]
+layout_mode = 0
 offset_top = -20.0
 offset_right = 40.0
 text = "YOU"
 horizontal_alignment = 1
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=132728871]
 
-[node name="VBox" type="VBoxContainer" parent="UI"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 500.0
-offset_bottom = 60.0
+[node name="VBox" type="VBoxContainer" parent="UI" unique_id=426626835]
+offset_left = 294.0
+offset_top = 256.0
+offset_right = 785.0
+offset_bottom = 488.0
 
-[node name="Title" type="Label" parent="UI/VBox"]
+[node name="Title" type="Label" parent="UI/VBox" unique_id=2025679786]
+layout_mode = 2
 text = "LESSON 07: Server Authority — LEFT=client-authority, RIGHT=server-validated"
 autowrap_mode = 3
 
-[node name="Row" type="HBoxContainer" parent="UI/VBox"]
+[node name="Row" type="HBoxContainer" parent="UI/VBox" unique_id=674050964]
+layout_mode = 2
 
-[node name="HostBtn" type="Button" parent="UI/VBox/Row"]
+[node name="HostBtn" type="Button" parent="UI/VBox/Row" unique_id=726116139]
+layout_mode = 2
 text = "Host (7006)"
 
-[node name="JoinBtn" type="Button" parent="UI/VBox/Row"]
+[node name="JoinBtn" type="Button" parent="UI/VBox/Row" unique_id=1434155978]
+layout_mode = 2
 text = "Join"
 
-[node name="DisconnectBtn" type="Button" parent="UI/VBox/Row"]
+[node name="DisconnectBtn" type="Button" parent="UI/VBox/Row" unique_id=999309627]
+layout_mode = 2
 text = "Disconnect"
 
-[node name="CheatBtn" type="Button" parent="UI/VBox/Row"]
+[node name="CheatBtn" type="Button" parent="UI/VBox/Row" unique_id=1837343379]
+layout_mode = 2
 text = "CHEAT: Teleport (server rejects)"
 
-[node name="Log" type="RichTextLabel" parent="UI/VBox"]
+[node name="Debug" type="Label" parent="UI/VBox" unique_id=1205178579]
+modulate = Color(0.6, 1, 0.6, 1)
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "Debug: not connected"
+
+[node name="Log" type="RichTextLabel" parent="UI/VBox" unique_id=557360372]
 custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
 scroll_following = true

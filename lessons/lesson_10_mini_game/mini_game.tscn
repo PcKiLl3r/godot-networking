@@ -13,12 +13,12 @@ color = Color(0.05, 0.05, 0.08, 1)
 
 [node name="Arena" type="Node2D" parent="."]
 
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("Arena")
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Arena"]
+spawn_path = NodePath(".")
 spawn_limit = 4
 
-[node name="CoinSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("Arena")
+[node name="CoinSpawner" type="MultiplayerSpawner" parent="Arena"]
+spawn_path = NodePath(".")
 spawn_limit = 20
 
 [node name="UI" type="CanvasLayer" parent="."]

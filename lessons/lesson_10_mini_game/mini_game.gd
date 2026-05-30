@@ -45,13 +45,13 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	$PlayerSpawner.spawn_function = _spawn_player_node
-	$CoinSpawner.spawn_function = _spawn_coin_node
+	$Arena/PlayerSpawner.spawn_function = _spawn_player_node
+	$Arena/CoinSpawner.spawn_function = _spawn_coin_node
 	_show_lobby()
 
 func _connect_ui() -> void:
-	$UI/Lobby/HostBtn.pressed.connect(_on_host_pressed)
-	$UI/Lobby/JoinBtn.pressed.connect(_on_join_pressed)
+	$UI/Lobby/Row/HostBtn.pressed.connect(_on_host_pressed)
+	$UI/Lobby/Row/JoinBtn.pressed.connect(_on_join_pressed)
 	$UI/Lobby/StartBtn.pressed.connect(_on_start_pressed)
 	$UI/GameOver/PlayAgainBtn.pressed.connect(_on_play_again)
 
@@ -107,7 +107,7 @@ func _register_self() -> void:
 func register_me(p_name: String) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	var idx := _players.size()
-	var color := _player_colors[idx % _player_colors.size()]
+	var color: Color = _player_colors[idx % _player_colors.size()]
 	_scores[id] = 0
 	_spawn_player_for(id, p_name, color)
 	new_player_broadcast.rpc(id, p_name, color)
@@ -127,7 +127,7 @@ func send_existing_player(id: int, p_name: String, color: Color, score: int) -> 
 
 func _spawn_player_for(id: int, p_name: String, color: Color) -> void:
 	var idx := _players.size()
-	$PlayerSpawner.spawn({
+	$Arena/PlayerSpawner.spawn({
 		"peer_id": id, "name": p_name, "color": color,
 		"position": Vector2(80 + idx * 150, 230),
 	})
@@ -154,14 +154,19 @@ func _spawn_coins() -> void:
 			randf_range(50, 730),
 			randf_range(50, 430)
 		)
-		$CoinSpawner.spawn({ "index": i, "position": pos })
+		$Arena/CoinSpawner.spawn({ "index": i, "position": pos })
 
 func _spawn_coin_node(data: Dictionary) -> Node:
-	var coin := ColorRect.new()
+	# Node2D so position stays in same coordinate space as CharacterBody2D players
+	var coin := Node2D.new()
 	coin.name = "Coin_%d" % data["index"]
-	coin.size = Vector2(20, 20)
-	coin.position = data["position"] - Vector2(10, 10)
-	coin.color = Color.YELLOW
+	coin.position = data["position"]
+	# Visual child — offset so it's centered on the node origin
+	var rect := ColorRect.new()
+	rect.size = Vector2(18, 18)
+	rect.position = Vector2(-9, -9)
+	rect.color = Color.YELLOW
+	coin.add_child(rect)
 	_coins.append(coin)
 	return coin
 
@@ -193,7 +198,7 @@ func _physics_process(_delta: float) -> void:
 		for coin in _coins.duplicate():
 			if not is_instance_valid(coin):
 				continue
-			if player.position.distance_to(coin.position + Vector2(10, 10)) < 24:
+			if player.position.distance_to(coin.position) < 32:
 				# Pickup!
 				coin.queue_free()
 				_coins.erase(coin)
@@ -267,7 +272,7 @@ func _show_game_over() -> void:
 func _refresh_scoreboard() -> void:
 	var txt := ""
 	for id in _scores:
-		var name_str := _players[id].player_name_str if _players.has(id) else "P%d" % id
+		var name_str: String = _players[id].player_name_str if _players.has(id) else "P%d" % id
 		txt += "%s: %d pts\n" % [name_str, _scores[id]]
 	$UI/Game/Scoreboard.text = txt
 

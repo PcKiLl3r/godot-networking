@@ -22,19 +22,19 @@ var _players: Dictionary = {}
 var _simulated_lag_ms := 0
 
 func _ready() -> void:
-	$UI/VBox/HostBtn.pressed.connect(_on_host_pressed)
-	$UI/VBox/JoinBtn.pressed.connect(_on_join_pressed)
-	$UI/VBox/DisconnectBtn.pressed.connect(_on_disconnect_pressed)
-	$UI/VBox/SlowSyncBtn.pressed.connect(_set_slow_sync)
-	$UI/VBox/FastSyncBtn.pressed.connect(_set_fast_sync)
-	$UI/VBox/ToggleInterpBtn.pressed.connect(_toggle_interpolation)
-	$UI/VBox/LagSlider.value_changed.connect(_on_lag_changed)
+	$UI/VBox/Row1/HostBtn.pressed.connect(_on_host_pressed)
+	$UI/VBox/Row1/JoinBtn.pressed.connect(_on_join_pressed)
+	$UI/VBox/Row1/DisconnectBtn.pressed.connect(_on_disconnect_pressed)
+	$UI/VBox/Row2/SlowSyncBtn.pressed.connect(_set_slow_sync)
+	$UI/VBox/Row2/FastSyncBtn.pressed.connect(_set_fast_sync)
+	$UI/VBox/Row2/ToggleInterpBtn.pressed.connect(_toggle_interpolation)
+	$UI/VBox/LagRow/LagSlider.value_changed.connect(_on_lag_changed)
 
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.connected_to_server.connect(func(): request_spawn.rpc_id(1))
 
-	$Spawner.spawn_function = _do_spawn
+	$PlayArea/Spawner.spawn_function = _do_spawn
 
 func _on_host_pressed() -> void:
 	var peer := ENetMultiplayerPeer.new()
@@ -65,7 +65,7 @@ func request_spawn() -> void:
 
 func _spawn_for(peer_id: int) -> void:
 	var idx := _players.size()
-	$Spawner.spawn({
+	$PlayArea/Spawner.spawn({
 		"peer_id": peer_id,
 		"color": Color.from_hsv(idx * 0.35, 0.7, 0.9),
 		"position": Vector2(100 + idx * 200, 210),
@@ -98,20 +98,16 @@ func _set_all_sync_intervals(interval: float) -> void:
 	for p in _players.values():
 		if p.has_node("Sync"):
 			p.get_node("Sync").replication_interval = interval
+			p.sync_interval = interval  # player uses this for lerp timing
 
 # ── Interpolation toggle ──────────────────────────────────────────────────
 
 func _toggle_interpolation() -> void:
 	for p in _players.values():
-		if p.has_node("Sync"):
-			var sync: MultiplayerSynchronizer = p.get_node("Sync")
-			# interpolation property smooths between received snapshots
-			# Set via the Godot editor OR:
-			# sync.interpolation = not sync.interpolation  ← property added in 4.3
-			# For 4.x compatibility, show how to do it manually:
-			p.use_interpolation = not p.use_interpolation
-			log_line("Interpolation: %s" % p.use_interpolation)
-			break
+		p.use_interpolation = not p.use_interpolation
+		log_line("Interpolation = %s" % p.use_interpolation)
+		log_line("  ON  → lerp toward net_pos each frame (smooth, ~1 interval behind)")
+		log_line("  OFF → snap to net_pos each frame (choppy at slow sync rate)")
 
 func _on_lag_changed(value: float) -> void:
 	_simulated_lag_ms = int(value)
